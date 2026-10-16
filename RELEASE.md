@@ -2,6 +2,8 @@ Android 8+ native client with embedded Rust Core and the same immutable-pinned D
 
 - Internal same-origin navigation remains inside the bundled application; real external HTTP(S) links use the OS browser.
 - Explicit personal-key onboarding and Phosphor interface icons from shared Delta UI.
+- Shared UI 0.1.5: display name, nickname and avatar settings; recovery phrases hidden by default with copy and native Markdown export controls.
+- Isolated portable Delta app installation and offline Media UI startup; no owner IPC or credentials exposed to app frames.
 - Canonical SVG brand with platform PNG/ICO resources; Android adaptive, round and monochrome launcher resources.
 - Full shared UI over bounded native IPC; no Web server or Node.js required.
 - Android Keystore AES-GCM encryption for profile, peer secrets and native UI documents, with no plaintext fallback and backup/transfer exclusions.
@@ -13,4 +15,4 @@ Verify SHA256SUMS before installation. Debug .preview builds are a separate appl
 
 Release gates verify APK signing and exercise startup, encrypted-profile persistence, Activity background/relaunch and service opt-in on an Android 35 emulator. No physical-device reboot/battery acceptance is claimed. Android Doze/vendor policies may delay or stop networking; force-stop requires a user relaunch. No 24/7 guarantee.
 
-Local process execution/npm plugin installation/desktop telemetry are deliberately excluded on Android; use a paired trusted desktop/VPS node. New local profiles bind to loopback. Pairing does not provide NAT traversal. Independent signed UI activation, app binary self-update and arbitrary plugin HTML frames are not enabled.
+Local process execution/npm plugin installation/desktop telemetry are deliberately excluded on Android; use a paired trusted desktop/VPS node. New local profiles bind to loopback. Pairing does not provide NAT traversal. Independent signed UI activation, app binary self-update and arbitrary unverified plugin HTML frames are not enabled. Portable static apps are separately verified and isolated; Media decoding/background playback on real Android devices remains a separate acceptance requirement.
