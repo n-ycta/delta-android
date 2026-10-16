@@ -15,7 +15,18 @@ Android 8+ application with an embedded Rust Core and the same immutable-pinned 
 
 ## Installation and signing
 
-Download the release APK from GitHub Releases, verify `SHA256SUMS` and allow installation from the chosen source. Production uses `dev.delta.android`; debug previews use a separate `.preview` ID. A stable private signing key is held in encrypted GitHub Actions secrets, not in source control. Future updates must retain that key and increase the version code. Keep production data out of debug builds.
+[**Download the latest APK**](https://github.com/n-ycta/delta-android/releases/latest/download/Delta-Android-arm64-x86_64.apk) · [SHA256SUMS](https://github.com/n-ycta/delta-android/releases/latest/download/SHA256SUMS) · [Release notes](https://github.com/n-ycta/delta-android/releases/latest)
+
+Download the APK directly on your phone, verify its checksum and allow installation from the browser/file manager you deliberately chose. The universal package supports ARM64 phones and x86_64 emulators; Android 8.0 (API 26) or later is required. Updates can be installed over the existing production app without clearing its data. Production uses `dev.delta.android`; debug previews use a separate `.preview` ID. A stable private signing key is held in encrypted GitHub Actions secrets, not in source control. Future updates must retain that key and increase the version code. Keep production data out of debug builds.
+
+## First run
+
+1. Open Delta. Its local node belongs to the app's private OS profile; there is no public account registration or browser owner-token paste.
+2. Open **Settings → Core connection**. Enter a reachable remote Core URL and invitation code, or scan an invitation QR image. Review incoming administrative trust before joining.
+3. Select the trusted desktop/VPS node for optional MCP, updater, provisioning and observability services. Android does not run npm plugins locally.
+4. Enable **Background service** only if needed and grant notification permission when Android asks. The ongoing notification provides a Stop action. System notifications for plugin feeds are a separate opt-in.
+
+Do not clear app storage or uninstall the app as a troubleshooting step without understanding that its Keystore-bound local identity is not a transferable backup. A reinstall may require re-pairing.
 
 ## Android restrictions
 
