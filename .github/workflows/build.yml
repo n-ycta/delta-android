@@ -79,6 +79,7 @@ jobs:
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
+          emulator-build: 14214601 # Official stable 36.2.12; avoid the 37.x software-renderer regression.
           arch: x86_64
           target: google_apis
           disable-animations: true
