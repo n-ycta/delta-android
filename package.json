@@ -11,7 +11,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@delta/ui": "https://github.com/n-ycta/delta-ui/archive/e52c827e9bb003e93ec4f3fde1ba427c7c31e96b.tar.gz"
+    "@delta/ui": "https://github.com/n-ycta/delta-ui/archive/1514c914192a675fefab7278800af6711f9219f6.tar.gz"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
