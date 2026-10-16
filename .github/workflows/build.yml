@@ -71,6 +71,13 @@ jobs:
           path: apk
           run-id: ${{ inputs.acceptance_run || github.run_id }}
           github-token: ${{ github.token }}
+      - name: Prepare Mesa headless display
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libgl1-mesa-dri libegl1 xvfb
+          Xvfb :99 -screen 0 1280x800x24 > /tmp/delta-xvfb.log 2>&1 &
+          echo DISPLAY=:99 >> "$GITHUB_ENV"
+          echo LIBGL_ALWAYS_SOFTWARE=1 >> "$GITHUB_ENV"
       - name: Enable emulator acceleration
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -85,7 +92,7 @@ jobs:
           disable-animations: true
           ram-size: 4096M
           cores: 2
-          emulator-options: -no-window -gpu swiftshader_indirect -feature -Vulkan -noaudio -no-boot-anim -no-snapshot-save -no-snapshot-load
+          emulator-options: -no-window -gpu host -feature -Vulkan -noaudio -no-boot-anim -no-snapshot-save -no-snapshot-load
           script: |
             mkdir -p acceptance
             adb logcat > acceptance/logcat-stream.txt 2>&1 &
