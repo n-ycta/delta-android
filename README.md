@@ -19,4 +19,3 @@ Android uses application-private persistent storage and is currently foreground-
 
 `npm ci && npm run build:ui`. Native build additionally requires Rust and the platform Tauri prerequisites. Desktop: `npx tauri build --bundles appimage` (Linux), `--bundles nsis` (Windows). Android: `npx tauri android init --ci`, then `npx tauri android build --debug --apk --target aarch64 --ci` with Android SDK/NDK installed.
 
-CI artifacts are development builds, not certified device support. [Canonical roadmap](https://github.com/n-ycta/delta/blob/main/docs/roadmap.md).
