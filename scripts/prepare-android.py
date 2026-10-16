@@ -4,6 +4,7 @@ import shutil,xml.etree.ElementTree as ET
 exec(Path('scripts/harden-android.py').read_text())
 root=Path('src-tauri/gen/android/app/src/main');dest=root/'java/dev/delta/android';dest.mkdir(parents=True,exist_ok=True)
 shutil.copytree('android-res', root/'res', dirs_exist_ok=True)
+shutil.copytree('app-packages',root/'assets/delta-apps',dirs_exist_ok=True)
 for source in Path('android').rglob('*.kt'):
  target=dest/source.relative_to('android');target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,target)
 ns='http://schemas.android.com/apk/res/android';a=lambda k:'{'+ns+'}'+k

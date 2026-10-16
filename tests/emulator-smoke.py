@@ -53,6 +53,25 @@ for label in ['Plugins','Nodes','Settings']:
  resumed=' '.join(line for line in activity.splitlines() if 'mResumedActivity' in line or 'topResumedActivity' in line)
  assert 'dev.delta.android' in resumed,'Internal menu click escaped to an external application: '+label
 screen('internal-navigation')
+# The reviewed static Media package installs offline on Android with no Node process.
+tap_label('menu','меню');tap_label('Plugins','Плагины',scroll=True)
+tap_label('Install','Установить',scroll=True)
+for attempt in range(20):
+ root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
+ if 'Open' in texts or 'Открыть' in texts:break
+ time.sleep(2)
+tap_label('Open','Открыть',scroll=True)
+for attempt in range(20):
+ root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
+ if ('Library' in texts or 'Медиатека' in texts) and ('Import' in texts or 'Импорт' in texts):break
+ time.sleep(2)
+screen('media-installed')
+assert ('Library' in texts or 'Медиатека' in texts) and ('Import' in texts or 'Импорт' in texts),'Installed Media must render in its isolated app-origin inside APK'
+assets=adb('shell','su','0','ls','/data/data/dev.delta.android/apps/dev.delta.media').split()
+assert b'index.html' in assets and b'node' not in assets,'Portable app must contain browser assets, not a Node runtime'
+tap_label('Library','Медиатека');screen('media-library')
+tap_label('Console','Консоль');time.sleep(3)
+
 
 profile='/data/data/dev.delta.android/files/node/config.json'
 before=adb('exec-out','su','0','cat',profile)
@@ -75,5 +94,5 @@ adb('shell','input','keyevent','KEYCODE_HOME');time.sleep(5);assert 'DeltaNodeSe
 start();screen('restored');adb('shell','su','0','am','startservice','-n','dev.delta.android/.platform.DeltaNodeService','-a','stop');time.sleep(5);adb('shell','input','keyevent','KEYCODE_HOME');start();assert adb('exec-out','su','0','cat',profile)==before,'Stopping the service must release its profile lease for restart';adb('shell','am','force-stop','dev.delta.android');start();after=adb('exec-out','su','0','cat',profile);assert before==after,'A user restart must preserve the encrypted node identity/profile'
 logs=adb('logcat','-d').decode(errors='replace');(out/'logcat.txt').write_text(logs)
 assert 'FATAL EXCEPTION' not in logs and 'Fatal signal' not in logs,'Native process must not crash'
-(out/'result.txt').write_text('PASS: explicit key onboarding, internal menu clicks stay in APK, release startup, Keystore ciphertext, explicit background service, Activity background and user restart with persistent profile. Emulator only; no battery/physical-device guarantee.\n')
+(out/'result.txt').write_text('PASS: explicit key onboarding, internal menu clicks stay in APK, offline portable Media installation and embedded navigation, release startup, Keystore ciphertext, explicit background service, Activity background and user restart with persistent profile. Emulator only; no battery/physical-device guarantee.\n')
 print((out/'result.txt').read_text())

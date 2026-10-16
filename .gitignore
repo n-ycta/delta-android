@@ -8,3 +8,7 @@ src-tauri/gen/
 *.log
 
 /runtime/
+
+app-packages/
+
+__pycache__/
