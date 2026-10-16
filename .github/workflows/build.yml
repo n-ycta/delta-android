@@ -3,10 +3,16 @@ on:
   push:
     paths-ignore: ['**/*.md']
   workflow_dispatch:
+    inputs:
+      acceptance_run:
+        description: Existing signed-APK workflow run to test without rebuilding
+        required: false
+        type: string
 permissions:
   contents: read
 jobs:
   android:
+    if: inputs.acceptance_run == ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -49,6 +55,7 @@ jobs:
       - if: always()
         run: rm -f "$RUNNER_TEMP/delta-release.p12"
   emulator:
+    if: always() && (needs.android.result == 'success' || inputs.acceptance_run != '')
     needs: android
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -59,7 +66,11 @@ jobs:
       - uses: android-actions/setup-android@v3
         with: {packages: platform-tools}
       - uses: actions/download-artifact@v4
-        with: {name: delta-android-signed, path: apk}
+        with:
+          name: delta-android-signed
+          path: apk
+          run-id: ${{ inputs.acceptance_run || github.run_id }}
+          github-token: ${{ github.token }}
       - name: Enable emulator acceleration
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
