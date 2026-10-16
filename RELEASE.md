@@ -1,5 +1,8 @@
 Android 8+ native client with embedded Rust Core and the same immutable-pinned Delta UI as Desktop and Web. Universal APK includes ARM64 and x86_64, uses the production app ID dev.delta.android, and is signed with a stable private release key held in encrypted Actions secrets.
 
+- Internal same-origin navigation remains inside the bundled application; real external HTTP(S) links use the OS browser.
+- Explicit personal-key onboarding and Phosphor interface icons from shared Delta UI.
+- Canonical SVG brand with platform PNG/ICO resources; Android adaptive, round and monochrome launcher resources.
 - Full shared UI over bounded native IPC; no Web server or Node.js required.
 - Android Keystore AES-GCM encryption for profile, peer secrets and native UI documents, with no plaintext fallback and backup/transfer exclusions.
 - Explicit foreground-service opt-in, ongoing notification, Stop action and plugin notification delivery acknowledgements.

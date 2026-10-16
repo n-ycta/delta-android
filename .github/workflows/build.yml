@@ -30,6 +30,7 @@ jobs:
           sdkmanager 'ndk;27.2.12479018' 'platforms;android-35' 'build-tools;35.0.0'
           echo "NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> $GITHUB_ENV
       - run: npm ci --ignore-scripts
+      - run: python tests/icon-resources.py
       - run: npx tauri android init --ci
       - run: python3 scripts/prepare-android.py
       - name: Restore private signing key

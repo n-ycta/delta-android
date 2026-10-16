@@ -16,6 +16,40 @@ def dump():
 def screen(name): (out/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
 def start():adb('shell','am','start','-W','-n','dev.delta.android/.MainActivity');time.sleep(12)
 assert b'uid=0' in adb('shell','su','0','id'),'Disposable userdebug emulator must permit local root inspection';adb('shell','pm','grant','dev.delta.android','android.permission.POST_NOTIFICATIONS',check=False);adb('logcat','-c');start();screen('home')
+# Exercise explicit first-run identity setup through real accessibility clicks.
+size=list(map(int,re.findall(r'\d+',adb('shell','wm','size').decode())[-2:]));width,height=size
+
+def tap_node(node):
+ coords=list(map(int,re.findall(r'\d+',node.get('bounds',''))))
+ if len(coords)!=4 or coords[2]<=coords[0] or coords[3]<=coords[1]:return False
+ adb('shell','input','tap',str((coords[0]+coords[2])//2),str((coords[1]+coords[3])//2));time.sleep(1);return True
+
+def tap_label(*labels,scroll=False):
+ for attempt in range(7 if scroll else 3):
+  root=dump()
+  for node in root.iter():
+   if (node.get('text') in labels or node.get('content-desc') in labels) and node.get('enabled')!='false' and tap_node(node):return
+  if scroll:adb('shell','input','swipe',str(width//2),str(height*3//4),str(width//2),str(height//3),'400')
+  time.sleep(1)
+ raise AssertionError('Accessible action not found: '+str(labels))
+
+root=dump();texts=' '.join(n.get('text','') for n in root.iter())
+assert 'Set up Delta' in texts or 'Настройка Delta' in texts,'Fresh install must show explicit onboarding'
+name=next((n for n in root.iter() if n.get('class')=='android.widget.EditText'),None)
+assert name is not None and tap_node(name),'Identity name input must be accessible'
+adb('shell','input','text','Emulator-owner');adb('shell','input','keyevent','KEYCODE_BACK')
+tap_label('Generate','Сгенерировать')
+tap_label('I saved the recovery phrase','Я сохранил seed-фразу',scroll=True)
+tap_label('Create','Создать',scroll=True);time.sleep(6)
+# No recovery phrase is included in captured acceptance screenshots/log output.
+screen('onboarded')
+for label in ['Plugins','Nodes','Settings']:
+ tap_label('menu','меню');tap_label(label,{'Plugins':'Плагины','Nodes':'Узлы','Settings':'Настройки'}[label],scroll=True);time.sleep(2)
+ activity=adb('shell','dumpsys','activity','activities').decode(errors='replace')
+ resumed=' '.join(line for line in activity.splitlines() if 'mResumedActivity' in line or 'topResumedActivity' in line)
+ assert 'dev.delta.android' in resumed,'Internal menu click escaped to an external application: '+label
+screen('internal-navigation')
+
 profile='/data/data/dev.delta.android/files/node/config.json'
 before=adb('exec-out','su','0','cat',profile)
 assert before.startswith(b'DLC1'),'Profile must be Keystore-encrypted'
@@ -37,5 +71,5 @@ adb('shell','input','keyevent','KEYCODE_HOME');time.sleep(5);assert 'DeltaNodeSe
 start();screen('restored');adb('shell','su','0','am','startservice','-n','dev.delta.android/.platform.DeltaNodeService','-a','stop');time.sleep(5);adb('shell','input','keyevent','KEYCODE_HOME');start();assert adb('exec-out','su','0','cat',profile)==before,'Stopping the service must release its profile lease for restart';adb('shell','am','force-stop','dev.delta.android');start();after=adb('exec-out','su','0','cat',profile);assert before==after,'A user restart must preserve the encrypted node identity/profile'
 logs=adb('logcat','-d').decode(errors='replace');(out/'logcat.txt').write_text(logs)
 assert 'FATAL EXCEPTION' not in logs and 'Fatal signal' not in logs,'Native process must not crash'
-(out/'result.txt').write_text('PASS: release startup, Keystore ciphertext, explicit background service, Activity background and user restart with persistent profile. Emulator only; no battery/physical-device guarantee.\n')
+(out/'result.txt').write_text('PASS: explicit key onboarding, internal menu clicks stay in APK, release startup, Keystore ciphertext, explicit background service, Activity background and user restart with persistent profile. Emulator only; no battery/physical-device guarantee.\n')
 print((out/'result.txt').read_text())

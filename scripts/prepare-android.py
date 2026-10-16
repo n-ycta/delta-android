@@ -3,10 +3,12 @@ from pathlib import Path
 import shutil,xml.etree.ElementTree as ET
 exec(Path('scripts/harden-android.py').read_text())
 root=Path('src-tauri/gen/android/app/src/main');dest=root/'java/dev/delta/android';dest.mkdir(parents=True,exist_ok=True)
+shutil.copytree('android-res', root/'res', dirs_exist_ok=True)
 for source in Path('android').rglob('*.kt'):
  target=dest/source.relative_to('android');target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,target)
 ns='http://schemas.android.com/apk/res/android';a=lambda k:'{'+ns+'}'+k
 p=root/'AndroidManifest.xml';tree=ET.parse(p);manifest=tree.getroot();app=manifest.find('application')
+app.set(a('icon'),'@mipmap/ic_launcher');app.set(a('roundIcon'),'@mipmap/ic_launcher_round')
 for permission in ['INTERNET','FOREGROUND_SERVICE','FOREGROUND_SERVICE_CONNECTED_DEVICE','CHANGE_NETWORK_STATE','POST_NOTIFICATIONS','RECEIVE_BOOT_COMPLETED']:
  if not any(v.get(a('name'))=='android.permission.'+permission for v in manifest.findall('uses-permission')):ET.SubElement(manifest,'uses-permission',{a('name'):'android.permission.'+permission})
 ET.SubElement(app,'service',{a('name'):'.platform.DeltaNodeService',a('exported'):'false',a('foregroundServiceType'):'connectedDevice',a('stopWithTask'):'false'})

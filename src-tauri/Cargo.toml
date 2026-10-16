@@ -1,6 +1,6 @@
 [package]
 name = "delta-android"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 license = "Apache-2.0"
 
@@ -13,7 +13,7 @@ tauri-build = {version="2",features=[]}
 
 [dependencies]
 tauri = {version="2",features=[]}
-delta-native-host = {git="https://github.com/n-ycta/delta-ui",rev="4e930ca8d71e6ef874032c37d21204793092305d"}
+delta-native-host = {git="https://github.com/n-ycta/delta-ui",rev="6de29d627429486c22fa8d66496cf3dea074958c"}
 
 [features]
 default = ["custom-protocol"]
