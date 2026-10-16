@@ -9,11 +9,11 @@ name = "delta_android_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
-tauri-build = {version="2",features=[]}
+tauri-build = {version="2",features= [] }
 
 [dependencies]
-tauri = {version="2",features=[]}
-delta-native-host = {git="https://github.com/n-ycta/delta-ui",rev="d2613770a652277399f621c63807c3c46037a472"}
+tauri = {version="2",features= [] }
+delta-native-host = {git="https://github.com/n-ycta/delta-ui",rev="3930cfda7c6565e87aae8c94a93cfa3254ba3ea0"}
 
 [features]
 default = ["custom-protocol"]
