@@ -79,13 +79,13 @@ jobs:
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
-          emulator-build: 14214601 # Official stable 36.2.12; avoid the 37.x software-renderer regression.
+          emulator-build: 13025442 # Official stable 35.4.9 for API 35; pin the pre-SwANGLE CI renderer.
           arch: x86_64
           target: google_apis
           disable-animations: true
           ram-size: 2048M
           cores: 2
-          emulator-options: -no-window -gpu swiftshader -feature -Vulkan -noaudio -no-boot-anim -no-snapshot-save -no-snapshot-load
+          emulator-options: -no-window -gpu swiftshader_indirect -feature -Vulkan -noaudio -no-boot-anim -no-snapshot-save -no-snapshot-load
           script: |
             mkdir -p acceptance
             adb logcat > acceptance/logcat-stream.txt 2>&1 &
