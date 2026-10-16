@@ -15,16 +15,18 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-linux-android
-      - run: sdkmanager 'ndk;27.2.12479018' 'platforms;android-35' 'build-tools;35.0.0'
+      - run: |
+          sdkmanager 'ndk;27.2.12479018' 'platforms;android-35' 'build-tools;35.0.0'
+          echo "NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> $GITHUB_ENV
       - run: npm ci --ignore-scripts
       - run: npm run build:ui
       - run: npx tauri android init --ci
       - run: npx tauri android build --debug --apk --target aarch64 --ci
-        env:
-          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.2.12479018
       - uses: actions/upload-artifact@v4
         with:
           name: delta-android-arm64-debug-preview
