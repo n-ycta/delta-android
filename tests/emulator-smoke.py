@@ -22,7 +22,11 @@ assert before.startswith(b'DLC1'),'Profile must be Keystore-encrypted'
 assert b'node_id' not in before and b'root_token' not in before,'No plaintext identity/credentials'
 # A complete invitation deep link only prefills fields, never auto-joins.
 adb('shell','am','start','-W','-a','android.intent.action.VIEW','-d',"'delta://pair?url=https%3A%2F%2Fexample.invalid&code=smoke'",'dev.delta.android');time.sleep(5)
-root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
+screen('pairing')
+for attempt in range(10):
+ root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
+ if 'Native connection' in texts or 'Нативное подключение' in texts:break
+ time.sleep(2)
 assert 'Native connection' in texts or 'Нативное подключение' in texts,'Native settings must render after a pairing link'
 boxes=[n for n in root.iter() if n.get('checkable')=='true' or n.get('text') in ['Background service','Фоновая служба'] or n.get('content-desc') in ['Background service','Фоновая служба']]
 assert boxes,'Background service switch must be accessible'
