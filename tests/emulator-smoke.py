@@ -1,8 +1,16 @@
 """Release APK acceptance on a disposable rooted AOSP emulator, not a physical-device claim."""
-import subprocess,time,re,xml.etree.ElementTree as ET
+import subprocess,time,re,atexit,xml.etree.ElementTree as ET
 from pathlib import Path
 out=Path('acceptance');out.mkdir(exist_ok=True)
-def adb(*a,check=True):return subprocess.run(['adb',*a],check=check,stdout=subprocess.PIPE,stderr=subprocess.PIPE).stdout
+def adb(*a,check=True):
+ result=subprocess.run(['adb',*a],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=120)
+ if check and result.returncode:
+  (out/'adb-error.txt').write_bytes(result.stderr);result.check_returncode()
+ return result.stdout
+@atexit.register
+def diagnostics():
+ try:(out/'logcat-final.txt').write_bytes(adb('logcat','-d',check=False))
+ except Exception:pass
 def dump():
  adb('shell','uiautomator','dump','/sdcard/delta-ui.xml');data=adb('shell','cat','/sdcard/delta-ui.xml');(out/'ui.xml').write_bytes(data);return ET.fromstring(data)
 def screen(name): (out/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
