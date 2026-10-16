@@ -17,7 +17,7 @@ jobs:
       - uses: android-actions/setup-android@v3
         with: {packages: platform-tools}
       - uses: Swatinem/rust-cache@v2
-        with: {workspaces: 'src-tauri -> target'}
+        with: {workspaces: 'src-tauri -> target', cache-on-failure: true}
       - uses: dtolnay/rust-toolchain@stable
         with: {targets: 'aarch64-linux-android,x86_64-linux-android'}
       - run: |

@@ -954,7 +954,7 @@ dependencies = [
 [[package]]
 name = "delta-native-host"
 version = "0.1.1"
-source = "git+https://github.com/n-ycta/delta-ui?rev=c28dfa7bbbeaa30a9d5d4f4b4e41f9b311636d4f#c28dfa7bbbeaa30a9d5d4f4b4e41f9b311636d4f"
+source = "git+https://github.com/n-ycta/delta-ui?rev=1609047e00cd638adf754c2f830a9cd1e18b6bb8#1609047e00cd638adf754c2f830a9cd1e18b6bb8"
 dependencies = [
  "delta-host-runtime",
  "jni",
