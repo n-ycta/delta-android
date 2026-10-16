@@ -1,4 +1,4 @@
-name: Build embedded Android preview
+name: Native Android
 on:
   push:
     paths-ignore: ['**/*.md']
@@ -11,30 +11,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
+        with: {node-version: '24'}
       - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
+        with: {distribution: temurin, java-version: '17'}
       - uses: android-actions/setup-android@v3
-        with:
-          packages: platform-tools
+        with: {packages: platform-tools}
       - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: src-tauri -> target
+        with: {workspaces: 'src-tauri -> target'}
       - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: aarch64-linux-android
+        with: {targets: 'aarch64-linux-android,x86_64-linux-android'}
       - run: |
           sdkmanager 'ndk;27.2.12479018' 'platforms;android-35' 'build-tools;35.0.0'
           echo "NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> $GITHUB_ENV
       - run: npm ci --ignore-scripts
-      - run: npm run build:ui
       - run: npx tauri android init --ci
-      - run: python3 scripts/harden-android.py
-      - run: npx tauri android build --debug --apk --target aarch64 --ci
+      - run: python3 scripts/prepare-android.py
+      - name: Restore private signing key
+        env:
+          KEY: ${{ secrets.DELTA_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$KEY"
+          printf '%s' "$KEY" | base64 --decode > "$RUNNER_TEMP/delta-release.p12"
+          chmod 600 "$RUNNER_TEMP/delta-release.p12"
+          echo "DELTA_KEYSTORE=$RUNNER_TEMP/delta-release.p12" >> $GITHUB_ENV
+      - name: Build signed universal APK
+        env:
+          DELTA_STORE_PASSWORD: ${{ secrets.DELTA_STORE_PASSWORD }}
+          DELTA_KEY_PASSWORD: ${{ secrets.DELTA_KEY_PASSWORD }}
+        run: npx tauri android build --apk --target aarch64 x86_64 --ci
+      - name: Verify APK signature
+        run: |
+          find src-tauri/gen/android/app/build/outputs/apk -name '*.apk' -exec "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs {} \;
       - uses: actions/upload-artifact@v4
         with:
-          name: delta-android-arm64-debug-preview
+          name: delta-android-signed
           path: src-tauri/gen/android/app/build/outputs/apk/**/*.apk
+      - if: always()
+        run: rm -f "$RUNNER_TEMP/delta-release.p12"
