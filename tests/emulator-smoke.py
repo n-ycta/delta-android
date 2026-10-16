@@ -33,7 +33,11 @@ def tap_label(*labels,scroll=False):
   time.sleep(1)
  raise AssertionError('Accessible action not found: '+str(labels))
 
-root=dump();texts=' '.join(n.get('text','') for n in root.iter())
+# WebView publishes its virtual accessibility tree asynchronously after UiAutomation connects.
+for attempt in range(20):
+ root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
+ if 'Set up Delta' in texts or 'Настройка Delta' in texts:break
+ adb('shell','input','tap',str(width//2),'150');time.sleep(2)
 assert 'Set up Delta' in texts or 'Настройка Delta' in texts,'Fresh install must show explicit onboarding'
 name=next((n for n in root.iter() if n.get('class')=='android.widget.EditText'),None)
 assert name is not None and tap_node(name),'Identity name input must be accessible'
