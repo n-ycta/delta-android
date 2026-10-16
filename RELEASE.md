@@ -1,8 +1,17 @@
+## Version 0.1.3
+
+- Pin shared UI 0.2.0: full Console, composable workbench, four themes and
+  templates, responsive dock, compact hideable host controls, editable overview.
+- Bundle verified Media 0.1.0-alpha.3 with radio presets and reusable shared
+  application surfaces. Existing libraries and workspace layouts survive asset updates.
+- Retain host permission boundaries; composition never grants plugin permissions.
+- Native background audio and cross-device media-library sync are not claimed.
+
 Android 8+ native client with embedded Rust Core and the same immutable-pinned Delta UI as Desktop and Web. Universal APK includes ARM64 and x86_64, uses the production app ID dev.delta.android, and is signed with a stable private release key held in encrypted Actions secrets.
 
 - Internal same-origin navigation remains inside the bundled application; real external HTTP(S) links use the OS browser.
 - Explicit personal-key onboarding and Phosphor interface icons from shared Delta UI.
-- Shared UI 0.1.5: display name, nickname and avatar settings; recovery phrases hidden by default with copy and native Markdown export controls.
+- Shared UI 0.2.0: display name, nickname and avatar settings; recovery phrases hidden by default with copy and native Markdown export controls.
 - Isolated portable Delta app installation and offline Media UI startup; no owner IPC or credentials exposed to app frames.
 - Canonical SVG brand with platform PNG/ICO resources; Android adaptive, round and monochrome launcher resources.
 - Full shared UI over bounded native IPC; no Web server or Node.js required.
