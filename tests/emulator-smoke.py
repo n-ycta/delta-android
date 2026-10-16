@@ -22,7 +22,7 @@ b=boxes[0];coords=list(map(int,re.findall(r'\d+',b.get('bounds',''))));assert le
 if b.get('checked')!='true':adb('shell','input','tap',str((coords[0]+coords[2])//2),str((coords[1]+coords[3])//2))
 time.sleep(5);services=adb('shell','dumpsys','activity','services','dev.delta.android').decode();assert 'DeltaNodeService' in services,'Foreground service must start from explicit UI opt-in'
 adb('shell','input','keyevent','KEYCODE_HOME');time.sleep(5);assert 'DeltaNodeService' in adb('shell','dumpsys','activity','services','dev.delta.android').decode(),'Service must survive hiding Activity'
-start();screen('restored');adb('shell','am','force-stop','dev.delta.android');start();after=adb('exec-out','cat',profile);assert before==after,'A user restart must preserve the encrypted node identity/profile'
+start();screen('restored');adb('shell','am','startservice','-n','dev.delta.android/.platform.DeltaNodeService','-a','stop');time.sleep(5);adb('shell','input','keyevent','KEYCODE_HOME');start();assert adb('exec-out','cat',profile)==before,'Stopping the service must release its profile lease for restart';adb('shell','am','force-stop','dev.delta.android');start();after=adb('exec-out','cat',profile);assert before==after,'A user restart must preserve the encrypted node identity/profile'
 logs=adb('logcat','-d').decode(errors='replace');(out/'logcat.txt').write_text(logs)
 assert 'FATAL EXCEPTION' not in logs and 'Fatal signal' not in logs,'Native process must not crash'
 (out/'result.txt').write_text('PASS: release startup, Keystore ciphertext, explicit background service, Activity background and user restart with persistent profile. Emulator only; no battery/physical-device guarantee.\n')
