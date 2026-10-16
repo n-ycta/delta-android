@@ -12,10 +12,8 @@ profile='/data/data/dev.delta.android/files/node/config.json'
 before=adb('exec-out','cat',profile)
 assert before.startswith(b'DLC1'),'Profile must be Keystore-encrypted'
 assert b'node_id' not in before and b'root_token' not in before,'No plaintext identity/credentials'
-# Deep links only prefill an invitation; they must never auto-join or trust a peer.
-adb('shell','am','start','-W','-a','android.intent.action.VIEW','-d','delta://pair?url=https%3A%2F%2Fexample.invalid%3A7700%26code=smoke','dev.delta.android');time.sleep(5)
-# Navigate explicitly when the URI does not carry a complete invitation.
-adb('shell','am','start','-W','-a','android.intent.action.VIEW','-d','delta://pair?url=https%3A%2F%2Fexample.invalid&code=smoke','dev.delta.android');time.sleep(5)
+# A complete invitation deep link only prefills fields, never auto-joins.
+adb('shell','am','start','-W','-a','android.intent.action.VIEW','-d',"'delta://pair?url=https%3A%2F%2Fexample.invalid&code=smoke'",'dev.delta.android');time.sleep(5)
 root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
 assert 'Native connection' in texts or 'Нативное подключение' in texts,'Native settings must render after a pairing link'
 boxes=[n for n in root.iter() if n.get('checkable')=='true']

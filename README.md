@@ -1,23 +1,30 @@
-# Delta Android — experimental P0 host
+# Delta Android
 
-The Rust core is embedded in the application. This is **not** a link to a remote Web panel, and Node.js/npm is not needed on the user's device. Screens are imported from the same immutable `delta-ui` package used by Web; there is no copied frontend.
+Android 8+ application with an embedded Rust Core and the same immutable-pinned `delta-ui` used by Desktop and Web. No Web server or Node.js is required. The release APK includes ARM64 and x86_64 native libraries.
 
-## Available in this first development slice
+## Application
 
-- Persistent local node identity, core capability/component discovery and the shared native UI.
-- Versioned, size-bounded root-document IPC; owner credentials are not sent to JavaScript.
-- Mobile assembly excludes desktop process execution, npm package installation and host telemetry. Unsupported integrations are not simulated.
-- Desktop: reuse `DELTA_HOME` / `~/.delta`, verify node identity before attaching to an existing running profile, otherwise embed the same profile. Exclusive host lease prevents duplicate GUI runtimes. Closing the window hides it to the tray; Exit node is explicit.
+- Full shared interface over bounded native IPC. Root administrative credentials never enter JavaScript.
+- Local dashboards and preferences are persisted by the native host, not by a Web storage plugin.
+- The profile, peer trust secrets and native UI documents are encrypted with an app-scoped, non-exportable Android Keystore AES-GCM key. There is no plaintext fallback. Cloud backup/device transfer of the private profile is disabled. Losing the Keystore key requires re-pairing; this is not a portable identity backup.
+- A user-enabled foreground service owns the Core independently of the Activity/WebView. It has an ongoing notification and a Stop action. Optional notifications for plugin feeds are acknowledged only after Android accepts delivery.
+- Activity restoration and explicit relaunch reuse the same encrypted profile. Boot restoration is best effort and respects Android policy.
+- QR invitation images and `delta://pair` links only prefill pairing; joining and incoming administrative trust require explicit user actions.
+- Android document picker, share sheet, external browser and notification permission adapters.
+- The mobile Core deliberately excludes local shell execution, npm process supervision/package installation and desktop host telemetry. Use a paired trusted desktop/VPS node for those capabilities. MCP, provisioning, updates and observability require their independent plugins on an explicitly selected service node.
 
-## Not ready / acceptance gates
+## Installation and signing
 
-Full parity with Web's MCP/SSH/update/plugin-projection services, QR pairing UI, platform file/share/notification adapters, Keystore-backed trust secrets, background Android service, independent signed UI updates, workspaces, signed stable installers and physical-device reboot/sleep checks are **not complete**. Plugin HTML frames are disabled by CSP until isolation is integrated and tested. Do not mark ANDROID-01/DESKTOP-01/P0/P1 complete from this preview.
+Download the release APK from GitHub Releases, verify `SHA256SUMS` and allow installation from the chosen source. Production uses `dev.delta.android`; debug previews use a separate `.preview` ID. A stable private signing key is held in encrypted GitHub Actions secrets, not in source control. Future updates must retain that key and increase the version code. Keep production data out of debug builds.
 
-Android uses application-private persistent storage and is currently foreground-only: Android may stop it. Debug APK signing from CI is not a stable update channel; keep production profiles out of debug builds. No 24/7 promise.
+## Android restrictions
 
-## Build
+Doze, battery optimization and vendor policies can delay networking or terminate background work. Force-stop stops the service until the user launches the app again. No 24/7 guarantee is made. The new local Core is loopback-only: it can call a reachable paired remote Core, but pairing does not provide NAT traversal or inbound exposure. Use HTTPS or a trusted private network/VPN.
 
-`npm ci && npm run build:ui`. Native build additionally requires Rust and the platform Tauri prerequisites. Desktop: `npx tauri build --bundles appimage` (Linux), `--bundles nsis` (Windows). Android: `npx tauri android init --ci`, then `npx tauri android build --debug --apk --target aarch64 --ci` with Android SDK/NDK installed.
+Independent signed UI activation/rollback, app-binary self-update, arbitrary plugin HTML frames and physical-device battery/reboot acceptance are not enabled or claimed. UI updates ship with the app.
 
+## Build and acceptance
 
-Debug builds use the separate `.preview` application ID. Generated Android backup and device-transfer rules exclude the private node profile. Keystore-backed peer-secret storage is still an acceptance gate, not a completed feature.
+Requires Node 24, Rust, JDK 17, Android SDK 35 and NDK 27.2.12479018. Run `npm ci --ignore-scripts`, `npx tauri android init --ci`, `python3 scripts/prepare-android.py`, then `npx tauri android build --apk --target aarch64 x86_64 --ci`. Set `DELTA_KEYSTORE`, `DELTA_STORE_PASSWORD` and `DELTA_KEY_PASSWORD` securely for a production build. Never commit the key or passwords.
+
+CI verifies the production APK signature and runs `tests/emulator-smoke.py` on a disposable Android 35 emulator. Emulator evidence is not a physical-device test.
