@@ -1,0 +1,22 @@
+{
+  "name": "delta-android",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build:ui": "vite build",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@delta/ui": "https://github.com/n-ycta/delta-ui/archive/dd49bbee053385ea830e2a4ec5d6057976c34bb6.tar.gz"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "vite": "^8.3.4",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "^5.6.2"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "identifier": "main",
+  "description": "Main trusted bundled UI only; no remote origins or filesystem/shell grants",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default"
+  ]
+}
