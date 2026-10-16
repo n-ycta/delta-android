@@ -19,3 +19,5 @@ Android uses application-private persistent storage and is currently foreground-
 
 `npm ci && npm run build:ui`. Native build additionally requires Rust and the platform Tauri prerequisites. Desktop: `npx tauri build --bundles appimage` (Linux), `--bundles nsis` (Windows). Android: `npx tauri android init --ci`, then `npx tauri android build --debug --apk --target aarch64 --ci` with Android SDK/NDK installed.
 
+
+Debug builds use the separate `.preview` application ID. Generated Android backup and device-transfer rules exclude the private node profile. Keystore-backed peer-secret storage is still an acceptance gate, not a completed feature.

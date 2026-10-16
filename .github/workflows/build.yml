@@ -32,6 +32,7 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run build:ui
       - run: npx tauri android init --ci
+      - run: python3 scripts/harden-android.py
       - run: npx tauri android build --debug --apk --target aarch64 --ci
       - uses: actions/upload-artifact@v4
         with:
