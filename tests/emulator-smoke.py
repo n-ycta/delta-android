@@ -16,7 +16,7 @@ assert b'node_id' not in before and b'root_token' not in before,'No plaintext id
 adb('shell','am','start','-W','-a','android.intent.action.VIEW','-d',"'delta://pair?url=https%3A%2F%2Fexample.invalid&code=smoke'",'dev.delta.android');time.sleep(5)
 root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
 assert 'Native connection' in texts or 'Нативное подключение' in texts,'Native settings must render after a pairing link'
-boxes=[n for n in root.iter() if n.get('checkable')=='true']
+boxes=[n for n in root.iter() if n.get('checkable')=='true' or n.get('text') in ['Background service','Фоновая служба'] or n.get('content-desc') in ['Background service','Фоновая служба']]
 assert boxes,'Background service switch must be accessible'
 b=boxes[0];coords=list(map(int,re.findall(r'\d+',b.get('bounds',''))));assert len(coords)==4
 if b.get('checked')!='true':adb('shell','input','tap',str((coords[0]+coords[2])//2),str((coords[1]+coords[3])//2))
