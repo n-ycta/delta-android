@@ -13,7 +13,7 @@ tauri-build = {version="2",features= [] }
 
 [dependencies]
 tauri = {version="2",features= [] }
-delta-native-host = {git="https://github.com/n-ycta/delta-ui",rev="630875c3ebd47b7fb3fb7dd18b79505457b951dd"}
+delta-native-host = {git="https://github.com/n-ycta/delta-ui",rev="55a6ea27ac4177e1b9350ab69afa5db8e4f821f6"}
 
 [features]
 default = ["custom-protocol"]
