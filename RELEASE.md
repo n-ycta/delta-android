@@ -1,3 +1,9 @@
+## Version 0.1.4
+
+- Pin shared UI 0.2.1, fixing embedded forms and navigation at narrow application-pane widths.
+- Restore intended Workbench control styling; preserve saved layouts, identities and Media libraries.
+- The platform limitations below remain unchanged.
+
 ## Version 0.1.3
 
 - Pin shared UI 0.2.0: full Console, composable workbench, four themes and
