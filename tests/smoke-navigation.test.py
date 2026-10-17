@@ -23,9 +23,18 @@ class CountedTabs(unittest.TestCase):
   self.assertEqual(taps,[])
   self.assertTrue(context['tap_node'](ET.Element('node',{'bounds':'[-20][620][100][700]'})))
   self.assertEqual(taps[-1],('shell','input','tap','50','630'))
+ def test_clipped_button_scrolls_instead_of_tapping_scrollbar(self):
+  helper=next(node for node in ast.parse(source).body if isinstance(node,ast.FunctionDef) and node.name=='inside_scrollport')
+  context={'re':re}
+  exec(compile(ast.Module(body=[helper],type_ignores=[]),'<inside_scrollport>','exec'),context)
+  viewport=ET.Element('node',{'scrollable':'true','bounds':'[0,187][320,558]'})
+  button=ET.SubElement(viewport,'node',{'bounds':'[29,538][319,570]'})
+  self.assertFalse(context['inside_scrollport'](button,{button:viewport}))
+  button.set('bounds','[29,400][319,432]')
+  self.assertTrue(context['inside_scrollport'](button,{button:viewport}))
  def test_catalog_is_selected_before_install_and_installed_before_open(self):
   self.assertLess(source.index("tap_label('Catalogue'"),source.index("tap_label('Install'"))
   self.assertLess(source.index("tap_label('Install'"),source.index("tap_label('Established'"))
-  self.assertLess(source.index("tap_label('Established'"),source.index("tap_label('Open'"))
+  self.assertLess(source.index("tap_label('Established'"),source.index("tap_label('Interface'"))
 
 if __name__=='__main__':unittest.main()

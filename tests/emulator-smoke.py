@@ -26,12 +26,25 @@ def tap_node(node):
  if right<=left or bottom<=top:return False
  adb('shell','input','tap',str((left+right)//2),str((top+bottom)//2));time.sleep(1);return True
 
-def tap_label(*labels,scroll=False,counted=False):
+def inside_scrollport(node,parents):
+ bounds=list(map(int,re.findall(r'-?\d+',node.get('bounds',''))))
+ if len(bounds)!=4:return False
+ parent=parents.get(node)
+ while parent is not None:
+  if parent.get('scrollable')=='true':
+   clip=list(map(int,re.findall(r'-?\d+',parent.get('bounds',''))))
+   if len(clip)==4 and (bounds[0]<clip[0] or bounds[2]>clip[2] or bounds[1]<clip[1]+4 or bounds[3]>clip[3]-12):return False
+  parent=parents.get(parent)
+ return True
+
+def tap_label(*labels,scroll=False,counted=False,buttons=False):
  for attempt in range(7 if scroll else 3):
-  root=dump()
+  root=dump();parents={child:parent for parent in root.iter() for child in parent}
   for node in root.iter():
    names=[node.get('text',''),node.get('content-desc','')]
    if counted:names=[re.sub(r'\s+\d+$','',name).strip() for name in names]
+   if buttons and not node.get('class','').endswith('Button'):continue
+   if scroll and not inside_scrollport(node,parents):continue
    if any(name in labels for name in names) and node.get('enabled')!='false' and tap_node(node):return
   if scroll:adb('shell','input','swipe',str(width//2),str(height*3//4),str(width//2),str(height//3),'400')
   time.sleep(1)
@@ -73,9 +86,9 @@ screen('media-install-complete')
 tap_label('Established','Installed','Установленные',counted=True)
 for attempt in range(20):
  root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
- if 'Open' in texts or 'Открыть' in texts:break
+ if 'Interface' in texts or 'Интерфейс' in texts or 'Open' in texts or 'Открыть' in texts:break
  time.sleep(2)
-tap_label('Open','Открыть',scroll=True)
+tap_label('Interface','Интерфейс','Open','Открыть',scroll=True,buttons=True)
 for attempt in range(20):
  root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
  if ('Library' in texts or 'Медиатека' in texts) and ('Import' in texts or 'Импорт' in texts):break
