@@ -21,8 +21,10 @@ size=list(map(int,re.findall(r'\d+',adb('shell','wm','size').decode())[-2:]));wi
 
 def tap_node(node):
  coords=list(map(int,re.findall(r'\d+',node.get('bounds',''))))
- if len(coords)!=4 or coords[2]<=coords[0] or coords[3]<=coords[1]:return False
- adb('shell','input','tap',str((coords[0]+coords[2])//2),str((coords[1]+coords[3])//2));time.sleep(1);return True
+ if len(coords)!=4:return False
+ left,top,right,bottom=max(0,coords[0]),max(0,coords[1]),min(width,coords[2]),min(height,coords[3])
+ if right<=left or bottom<=top:return False
+ adb('shell','input','tap',str((left+right)//2),str((top+bottom)//2));time.sleep(1);return True
 
 def tap_label(*labels,scroll=False,counted=False):
  for attempt in range(7 if scroll else 3):
@@ -59,6 +61,15 @@ screen('internal-navigation')
 tap_label('menu','меню');tap_label('Plugins','Плагины',scroll=True)
 tap_label('Catalogue','Catalog','Каталог',counted=True)
 tap_label('Install','Установить',scroll=True)
+# Observe the real installer instead of mistaking an off-screen click for success.
+for attempt in range(30):
+ installed=adb('shell','su','0','ls','/data/data/dev.delta.android/apps/dev.delta.media/index.html',check=False)
+ if b'index.html' in installed:break
+ time.sleep(2)
+else:
+ screen('media-install-failed');root=dump()
+ raise AssertionError('Media installation did not produce the reviewed app assets: '+' '.join(n.get('text','') for n in root.iter()))
+screen('media-install-complete')
 tap_label('Established','Installed','Установленные',counted=True)
 for attempt in range(20):
  root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
