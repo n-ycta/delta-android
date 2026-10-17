@@ -931,7 +931,7 @@ dependencies = [
 
 [[package]]
 name = "delta-android"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "delta-native-host",
  "jni",
@@ -942,7 +942,7 @@ dependencies = [
 [[package]]
 name = "delta-app-runtime"
 version = "0.1.0"
-source = "git+https://github.com/n-ycta/delta-ui?rev=bcfc44f0d6310a9eba19cb1a9dc662496205c8b8#bcfc44f0d6310a9eba19cb1a9dc662496205c8b8"
+source = "git+https://github.com/n-ycta/delta-ui?rev=0333a6b5eef66d7b62826f1573e3f06c88c3e471#0333a6b5eef66d7b62826f1573e3f06c88c3e471"
 dependencies = [
  "base64 0.22.1",
  "serde_json",
@@ -964,7 +964,7 @@ dependencies = [
 [[package]]
 name = "delta-native-host"
 version = "0.1.1"
-source = "git+https://github.com/n-ycta/delta-ui?rev=bcfc44f0d6310a9eba19cb1a9dc662496205c8b8#bcfc44f0d6310a9eba19cb1a9dc662496205c8b8"
+source = "git+https://github.com/n-ycta/delta-ui?rev=0333a6b5eef66d7b62826f1573e3f06c88c3e471#0333a6b5eef66d7b62826f1573e3f06c88c3e471"
 dependencies = [
  "delta-app-runtime",
  "delta-host-runtime",
