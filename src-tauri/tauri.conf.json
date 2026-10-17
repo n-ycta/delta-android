@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Delta Android",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "identifier": "dev.delta.android",
   "build": {
     "beforeBuildCommand": "npm run build:ui",
@@ -20,7 +20,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' asset: data:; connect-src ipc: http://ipc.localhost https://ipc.localhost; frame-src deltaapp-dev-delta-media: http://deltaapp-dev-delta-media.localhost https://deltaapp-dev-delta-media.localhost; object-src 'none'; base-uri 'none'; form-action 'none'",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' asset: data:; connect-src ipc: http://ipc.localhost https://ipc.localhost; frame-src deltaapp-dev-delta-media: http://deltaapp-dev-delta-media.localhost https://deltaapp-dev-delta-media.localhost deltaapp-dev-delta-youtube: http://deltaapp-dev-delta-youtube.localhost https://deltaapp-dev-delta-youtube.localhost deltaapp-dev-delta-soundcloud: http://deltaapp-dev-delta-soundcloud.localhost https://deltaapp-dev-delta-soundcloud.localhost deltaapp-dev-delta-spotify: http://deltaapp-dev-delta-spotify.localhost https://deltaapp-dev-delta-spotify.localhost; object-src 'none'; base-uri 'none'; form-action 'none'",
       "capabilities": [
         "main"
       ]
