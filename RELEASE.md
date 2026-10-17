@@ -1,3 +1,10 @@
+## Version 0.1.9
+
+- Pin shared Delta UI 0.3.0 (5a000ee) automatically (ui-sync).
+- Update the Media catalog to the verified 0.3.5 UI package.
+- Allow only the six explicit offline-cache capabilities through the Media UI broker; keep unrelated operations denied.
+- The platform limitations below remain unchanged.
+
 ## Version 0.1.8
 
 - Pin shared Delta UI 0.3.0 (ed4f03f) automatically (ui-sync).
