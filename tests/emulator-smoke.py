@@ -20,7 +20,7 @@ assert b'uid=0' in adb('shell','su','0','id'),'Disposable userdebug emulator mus
 size=list(map(int,re.findall(r'\d+',adb('shell','wm','size').decode())[-2:]));width,height=size
 
 def tap_node(node):
- coords=list(map(int,re.findall(r'\d+',node.get('bounds',''))))
+ coords=list(map(int,re.findall(r'-?\d+',node.get('bounds',''))))
  if len(coords)!=4:return False
  left,top,right,bottom=max(0,coords[0]),max(0,coords[1]),min(width,coords[2]),min(height,coords[3])
  if right<=left or bottom<=top:return False
