@@ -24,11 +24,13 @@ def tap_node(node):
  if len(coords)!=4 or coords[2]<=coords[0] or coords[3]<=coords[1]:return False
  adb('shell','input','tap',str((coords[0]+coords[2])//2),str((coords[1]+coords[3])//2));time.sleep(1);return True
 
-def tap_label(*labels,scroll=False):
+def tap_label(*labels,scroll=False,counted=False):
  for attempt in range(7 if scroll else 3):
   root=dump()
   for node in root.iter():
-   if (node.get('text') in labels or node.get('content-desc') in labels) and node.get('enabled')!='false' and tap_node(node):return
+   names=[node.get('text',''),node.get('content-desc','')]
+   if counted:names=[re.sub(r'\s+\d+$','',name).strip() for name in names]
+   if any(name in labels for name in names) and node.get('enabled')!='false' and tap_node(node):return
   if scroll:adb('shell','input','swipe',str(width//2),str(height*3//4),str(width//2),str(height//3),'400')
   time.sleep(1)
  raise AssertionError('Accessible action not found: '+str(labels))
@@ -55,7 +57,9 @@ for label in ['Plugins','Nodes','Settings']:
 screen('internal-navigation')
 # The reviewed static Media package installs offline on Android with no Node process.
 tap_label('menu','меню');tap_label('Plugins','Плагины',scroll=True)
+tap_label('Catalogue','Catalog','Каталог',counted=True)
 tap_label('Install','Установить',scroll=True)
+tap_label('Established','Installed','Установленные',counted=True)
 for attempt in range(20):
  root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
  if 'Open' in texts or 'Открыть' in texts:break
