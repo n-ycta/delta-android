@@ -56,6 +56,8 @@ for attempt in range(20):
  if 'Set up Delta' in texts or 'Настройка Delta' in texts:break
  adb('shell','input','tap',str(width//2),'150');time.sleep(2)
 assert 'Set up Delta' in texts or 'Настройка Delta' in texts,'Fresh install must show explicit onboarding'
+assert 'Connect to existing Delta' in texts or 'Подключить к существующей Delta' in texts,'Existing Delta connection must be offered before key creation'
+tap_label('Set up separately','Настроить отдельно');root=dump()
 name=next((n for n in root.iter() if n.get('class')=='android.widget.EditText'),None)
 assert name is not None and tap_node(name),'Identity name input must be accessible'
 adb('shell','input','text','Emulator-owner');adb('shell','input','keyevent','KEYCODE_BACK')

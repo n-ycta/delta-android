@@ -12,3 +12,14 @@ for version in ['v26','v33']:
   if version=='v33':assert r.find('monochrome') is not None
 source=(root/'scripts/prepare-android.py').read_text();assert "shutil.copytree('android-res'" in source;assert "'@mipmap/ic_launcher'" in source;assert "'@mipmap/ic_launcher_round'" in source
 print('PASS: five PNG densities, round/adaptive/themed icons, XML and persistent resource wiring')
+
+import json
+assert json.loads((root/'src-tauri/tauri.conf.json').read_text())['productName']=='Delta'
+assert "app.set(a('label'),'Delta')" in source
+print('PASS: installed Android application label is Delta; package identity is unchanged')
+ns='{http://schemas.android.com/apk/res/android}'
+for name in ['delta_launcher_foreground','delta_launcher_monochrome']:
+ group=ET.parse(root/f'android-res/drawable/{name}.xml').getroot().find('group')
+ assert float(group.get(ns+'scaleX'))==0.44 and float(group.get(ns+'scaleY'))==0.44
+ assert float(group.get(ns+'translateX'))==32 and float(group.get(ns+'translateY'))==32
+print('PASS: adaptive and themed marks reduced to 2/3, centred with launcher safe-zone padding')
