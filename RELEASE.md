@@ -1,3 +1,12 @@
+## Version 0.1.13
+
+- Pin shared Delta UI 0.3.6 (f5c2782) automatically (ui-sync).
+- Keep persistent app frames in stable DOM order; alternating two applications must not move iframe ancestors or reload their documents.
+- Cover early/missed ready events and allow a separate 35-second RPC deadline.
+- Bound dropdown SVG geometry and hide the retired Vector portable launcher.
+- Publish the verified LifeOS 0.3.2 package.
+- The platform limitations below remain unchanged.
+
 ## Version 0.1.12
 
 - Pin shared Delta UI 0.3.2 (6f9fa64) automatically (ui-sync).
