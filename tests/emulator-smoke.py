@@ -12,7 +12,14 @@ def diagnostics():
  try:(out/'logcat-final.txt').write_bytes(adb('logcat','-d',check=False))
  except Exception:pass
 def dump():
- adb('shell','uiautomator','dump','/sdcard/delta-ui.xml');data=adb('shell','cat','/sdcard/delta-ui.xml');(out/'ui.xml').write_bytes(data);return ET.fromstring(data)
+ # API 35 UiAutomation can lose its Binder FD during initial service attachment.
+ # Retry only the diagnostic command; never restart the app or replay UI actions.
+ for attempt in range(3):
+  try:
+   adb('shell','uiautomator','dump','/sdcard/delta-ui.xml');data=adb('shell','cat','/sdcard/delta-ui.xml');(out/'ui.xml').write_bytes(data);return ET.fromstring(data)
+  except (subprocess.CalledProcessError,ET.ParseError):
+   if attempt==2:raise
+   time.sleep(2)
 def screen(name): (out/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
 def start():adb('shell','am','start','-W','-n','dev.delta.android/.MainActivity');time.sleep(12)
 assert b'uid=0' in adb('shell','su','0','id'),'Disposable userdebug emulator must permit local root inspection';adb('shell','pm','grant','dev.delta.android','android.permission.POST_NOTIFICATIONS',check=False);adb('logcat','-c');start();screen('home')
@@ -54,7 +61,7 @@ def tap_label(*labels,scroll=False,counted=False,buttons=False):
 for attempt in range(20):
  root=dump();texts=' '.join(n.get('text','')+' '+n.get('content-desc','') for n in root.iter())
  if 'Set up Delta' in texts or 'Настройка Delta' in texts:break
- adb('shell','input','tap',str(width//2),'150');time.sleep(2)
+ adb('shell','input','tap',str(width//2),'70');time.sleep(2)
 assert 'Set up Delta' in texts or 'Настройка Delta' in texts,'Fresh install must show explicit onboarding'
 assert 'Connect to existing Delta' in texts or 'Подключить к существующей Delta' in texts,'Existing Delta connection must be offered before key creation'
 tap_label('Set up separately','Настроить отдельно');root=dump()

@@ -6,6 +6,10 @@ source=(Path(__file__).parent/'emulator-smoke.py').read_text()
 function=next(node for node in ast.parse(source).body if isinstance(node,ast.FunctionDef) and node.name=='tap_label')
 
 class CountedTabs(unittest.TestCase):
+ def test_accessibility_warmup_never_taps_the_connect_button(self):
+  self.assertNotIn("str(width//2),'150'",source)
+  self.assertIn("str(width//2),'70'",source)
+
  def test_catalog_and_installed_tabs_with_counts(self):
   for name,labels in [('Catalogue 1',('Catalogue','Каталог')),('Каталог 1',('Catalogue','Каталог')),('Established 0',('Established','Installed','Установленные')),('Установленные 12',('Established','Installed','Установленные'))]:
    node=ET.Element('node',{'text':name,'enabled':'true'});root=ET.Element('root');root.append(node);tapped=[]

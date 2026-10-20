@@ -1,3 +1,8 @@
+## Version 0.1.15
+
+- Keep the safe Delta launcher/name and shared UI/LifeOS updates from 0.1.14.
+- Fix emulator acceptance warm-up accidentally pressing the new Connect button; tolerate a bounded UiAutomation Binder-attachment failure without replaying app actions.
+
 ## Version 0.1.14
 
 - Installed application name: Delta, preserving the existing package ID and data.
