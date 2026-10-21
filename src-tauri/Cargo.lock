@@ -942,7 +942,6 @@ dependencies = [
 [[package]]
 name = "delta-app-runtime"
 version = "0.1.0"
-source = "git+https://github.com/n-ycta/delta-ui?rev=eaecc245aed5fdef35ae352f5778d6bfb0f596ee#eaecc245aed5fdef35ae352f5778d6bfb0f596ee"
 dependencies = [
  "base64 0.22.1",
  "serde_json",
@@ -952,7 +951,6 @@ dependencies = [
 [[package]]
 name = "delta-host-runtime"
 version = "0.1.1"
-source = "git+https://github.com/n-ycta/delta?rev=e841d9ad283b78cfc383f1fc8653e77e2c050216#e841d9ad283b78cfc383f1fc8653e77e2c050216"
 dependencies = [
  "delta-node",
  "fs2",
@@ -964,7 +962,6 @@ dependencies = [
 [[package]]
 name = "delta-native-host"
 version = "0.1.1"
-source = "git+https://github.com/n-ycta/delta-ui?rev=eaecc245aed5fdef35ae352f5778d6bfb0f596ee#eaecc245aed5fdef35ae352f5778d6bfb0f596ee"
 dependencies = [
  "delta-app-runtime",
  "delta-host-runtime",
@@ -983,7 +980,6 @@ dependencies = [
 [[package]]
 name = "delta-node"
 version = "0.4.5"
-source = "git+https://github.com/n-ycta/delta?rev=e841d9ad283b78cfc383f1fc8653e77e2c050216#e841d9ad283b78cfc383f1fc8653e77e2c050216"
 dependencies = [
  "async-trait",
  "axum",
