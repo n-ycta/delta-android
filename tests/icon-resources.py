@@ -25,8 +25,8 @@ for name in ['delta_launcher_foreground','delta_launcher_monochrome']:
 print('PASS: adaptive and themed marks reduced to 2/3, centred with launcher safe-zone padding')
 
 import shutil
-ui=root/'node_modules'/'@delta'/'ui'
-(ui/'scripts').mkdir(parents=True, exist_ok=True)
+ui=root/'node_modules'/'@delta'
+ui.mkdir(parents=True, exist_ok=True)
+shutil.copy(root/'vendor'/'delta-ui'/'scripts'/'prepare-apps.py', ui/'ui')
 shutil.copy(root/'vendor'/'delta-ui'/'app-catalog.json', ui/'app-catalog.json')
-shutil.copy(root/'vendor'/'delta-ui'/'scripts'/'prepare-apps.py', ui/'scripts'/'prepare-apps.py')
 print('PASS: app catalog staged for the existing prepare step')
