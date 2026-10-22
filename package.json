@@ -11,9 +11,7 @@
     "tauri": "tauri",
     "prepare": "mkdir -p node_modules/@delta/ui/scripts && cp vendor/delta-ui/app-catalog.json node_modules/@delta/ui/app-catalog.json && cp vendor/delta-ui/scripts/prepare-apps.py node_modules/@delta/ui/scripts/prepare-apps.py"
   },
-  "dependencies": {
-    "@delta/ui": "file:../delta-ui"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@tauri-apps/cli": "^2",
     "vite": "^8.3.4",
