@@ -31,7 +31,7 @@ jobs:
           echo "NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> $GITHUB_ENV
       - run: npm ci --ignore-scripts
       - run: python tests/icon-resources.py
-      - run: python node_modules/@delta/ui/scripts/prepare-apps.py
+      - run: python3 scripts/prepare-apps.py
       - run: npx tauri android init --ci
       - run: python3 scripts/prepare-android.py
       - name: Restore private signing key
