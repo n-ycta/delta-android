@@ -1,0 +1,236 @@
+[
+  {
+    "id": "dev.delta.media",
+    "name": "Delta Media",
+    "version": "0.3.6",
+    "icon": "vinyl-record",
+    "description": {
+      "ru": "Музыка, видео, радио и подключаемые источники в одном интерфейсе.",
+      "en": "Music, video, radio and connected providers in one interface."
+    },
+    "asset": "https://github.com/n-ycta/delta-media/releases/download/v0.3.6/delta-media.delta-app",
+    "sha256": "ce4a491b06de21c82bc119f6cac8fcd7eaf7ada9a35b95f82a18299129231794",
+    "runtime": {
+      "execution": "web",
+      "platforms": [
+        "android",
+        "windows",
+        "linux",
+        "macos",
+        "ios",
+        "web"
+      ],
+      "architectures": [
+        "any"
+      ]
+    },
+    "permissions": [
+      "storage.local",
+      "media.playback",
+      "network.https"
+    ],
+    "grants": [],
+    "intents": {
+      "send": [],
+      "receive": [
+        "media.play",
+        "media.enqueue"
+      ]
+    }
+  },
+  {
+    "id": "dev.delta.lifeos",
+    "name": "Delta LifeOS",
+    "version": "0.3.4",
+    "icon": "squares-four",
+    "description": {
+      "ru": "Дневник, задачи, навыки, время и проекты.",
+      "en": "Journal, tasks, skills, time and projects."
+    },
+    "asset": "https://github.com/n-ycta/delta-lifeos/releases/download/v0.3.4/delta-lifeos.delta-app",
+    "sha256": "b05c0166b6ad2b565b8ad69059b6f749cf58b114a61b293cb2eea27110c73d98",
+    "runtime": {
+      "execution": "web",
+      "platforms": [
+        "android",
+        "windows",
+        "linux",
+        "macos",
+        "ios",
+        "web"
+      ],
+      "architectures": [
+        "any"
+      ]
+    },
+    "permissions": [
+      "storage.local"
+    ],
+    "grants": [],
+    "intents": {
+      "send": [],
+      "receive": []
+    },
+    "ui": {
+      "version": 1,
+      "surfaces": [
+        {
+          "id": "today",
+          "name": {
+            "en": "Today",
+            "ru": "Сегодня"
+          },
+          "icon": "sun",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "capture",
+          "name": {
+            "en": "Quick capture",
+            "ru": "Быстрая запись"
+          },
+          "icon": "plus-circle",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "tasks",
+          "name": {
+            "en": "Tasks",
+            "ru": "Задачи"
+          },
+          "icon": "check-square",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "journal",
+          "name": {
+            "en": "Journal",
+            "ru": "Дневник"
+          },
+          "icon": "notebook",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "calendar",
+          "name": {
+            "en": "Calendar",
+            "ru": "Календарь"
+          },
+          "icon": "calendar-blank",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "practices",
+          "name": {
+            "en": "Practices",
+            "ru": "Практики"
+          },
+          "icon": "plant",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "projects",
+          "name": {
+            "en": "Projects",
+            "ru": "Проекты"
+          },
+          "icon": "stack",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "skills",
+          "name": {
+            "en": "Skills",
+            "ru": "Навыки"
+          },
+          "icon": "graduation-cap",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "review",
+          "name": {
+            "en": "Review",
+            "ru": "Обзор"
+          },
+          "icon": "compass",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "habits",
+          "name": {
+            "en": "Habits",
+            "ru": "Привычки"
+          },
+          "icon": "repeat",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "planner",
+          "name": {
+            "en": "Time planner",
+            "ru": "Планировщик"
+          },
+          "icon": "clock",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "rewards",
+          "name": {
+            "en": "Rewards",
+            "ru": "Награды"
+          },
+          "icon": "sketch-logo",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        },
+        {
+          "id": "statistics",
+          "name": {
+            "en": "Statistics",
+            "ru": "Статистика"
+          },
+          "icon": "chart-bar",
+          "kind": "widget",
+          "minWidth": 280,
+          "minHeight": 240,
+          "instance": "shared"
+        }
+      ]
+    }
+  }
+]
