@@ -8,11 +8,10 @@
     "build:ui": "vite build",
     "dev": "tauri dev",
     "build": "tauri build",
-    "tauri": "tauri",
-    "prepare": "mkdir -p node_modules/@delta/ui/scripts && cp vendor/delta-ui/app-catalog.json node_modules/@delta/ui/app-catalog.json && cp vendor/delta-ui/scripts/prepare-apps.py node_modules/@delta/ui/scripts/prepare-apps.py"
+    "tauri": "tauri"
   },
   "dependencies": {
-    "@delta/ui": "file:../delta-ui"
+    "@delta/ui": "https://github.com/n-ycta/delta-ui/archive/eaecc245aed5fdef35ae352f5778d6bfb0f596ee.tar.gz"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
