@@ -11,11 +11,13 @@ ns='http://schemas.android.com/apk/res/android';a=lambda k:'{'+ns+'}'+k
 p=root/'AndroidManifest.xml';tree=ET.parse(p);manifest=tree.getroot();app=manifest.find('application')
 app.set(a('label'),'Delta')
 app.set(a('icon'),'@mipmap/ic_launcher');app.set(a('roundIcon'),'@mipmap/ic_launcher_round')
-for permission in ['INTERNET','FOREGROUND_SERVICE','FOREGROUND_SERVICE_CONNECTED_DEVICE','CHANGE_NETWORK_STATE','POST_NOTIFICATIONS','RECEIVE_BOOT_COMPLETED','REQUEST_INSTALL_PACKAGES']:
+for permission in ['INTERNET','FOREGROUND_SERVICE','FOREGROUND_SERVICE_CONNECTED_DEVICE','CHANGE_NETWORK_STATE','POST_NOTIFICATIONS','RECEIVE_BOOT_COMPLETED','REQUEST_INSTALL_PACKAGES','CAMERA']:
  if not any(v.get(a('name'))=='android.permission.'+permission for v in manifest.findall('uses-permission')):ET.SubElement(manifest,'uses-permission',{a('name'):'android.permission.'+permission})
 ET.SubElement(app,'service',{a('name'):'.platform.DeltaNodeService',a('exported'):'false',a('foregroundServiceType'):'connectedDevice',a('stopWithTask'):'false'})
 r=ET.SubElement(app,'receiver',{a('name'):'.platform.BootReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.BOOT_COMPLETED'});ET.SubElement(f,'action',{a('name'):'android.intent.action.MY_PACKAGE_REPLACED'})
 r=ET.SubElement(app,'receiver',{a('name'):'.platform.UpdateStatusReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'dev.delta.android.UPDATE_STATUS'})
+# Live camera (QR pairing) must not hide the app from camera-less devices.
+if not any(v.get(a('name'))=='android.hardware.camera' for v in manifest.findall('uses-feature')):ET.SubElement(manifest,'uses-feature',{a('name'):'android.hardware.camera',a('required'):'false'})
 # Android 11+ package visibility: without this resolveActivity() for the installer's confirmation intent returns null.
 q=ET.SubElement(manifest,'queries');qi=ET.SubElement(q,'intent');ET.SubElement(qi,'action',{a('name'):'android.content.pm.action.CONFIRM_INSTALL'})
 activity=app.find('activity');f=ET.SubElement(activity,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.VIEW'})
