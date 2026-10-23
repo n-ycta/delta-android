@@ -22,7 +22,8 @@ class MainActivity:TauriActivity(){
  override fun onWebViewCreate(webView:WebView){super.onWebViewCreate(webView);deltaWebView=webView;webView.importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_YES}
  override fun onResume(){NativeCore.ensure(this);super.onResume();PlatformControls.attach(this);PlatformControls.resume(this);deliverPair(intent)}
  override fun onNewIntent(intent:Intent){setIntent(intent);PlatformControls.accept(intent);super.onNewIntent(intent);deliverPair(intent)}
- private fun deliverPair(intent:Intent?){val uri=intent?.data?:return;if(uri.scheme!="delta"||uri.host!="pair")return;val quoted=org.json.JSONObject.quote(uri.toString());deltaWebView?.post{deltaWebView?.evaluateJavascript("window.__deltaAcceptPair&&window.__deltaAcceptPair("+quoted+")",null)}}
+ // One-shot: JS returns false until the page exposes __deltaAcceptPair; any result other than false consumes it.
+ private fun deliverPair(intent:Intent?){val uri=intent?.data?:return;if(uri.scheme!="delta"||uri.host!="pair")return;val url=uri.toString();val quoted=org.json.JSONObject.quote(url);deltaWebView?.post{deltaWebView?.evaluateJavascript("(window.__deltaAcceptPair?window.__deltaAcceptPair("+quoted+"):false)"){result->if(result!="false"){intent.setData(null);PlatformControls.consumePairing(url)}}}}
  @Deprecated("Legacy result API required for the shared document picker")
  override fun onActivityResult(request:Int,result:Int,data:Intent?){if(!PlatformControls.onResult(this,request,result,data))super.onActivityResult(request,result,data)}
 }
