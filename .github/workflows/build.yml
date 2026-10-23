@@ -55,6 +55,7 @@ jobs:
           APK=$(find src-tauri/gen/android/app/build/outputs/apk -name '*.apk' | head -1)
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" > "$RUNNER_TEMP/apk-badging.txt"
           grep -Fx "application-label:'Delta'" "$RUNNER_TEMP/apk-badging.txt"
+          grep -F "uses-permission: name='android.permission.REQUEST_INSTALL_PACKAGES'" "$RUNNER_TEMP/apk-badging.txt"
       - uses: actions/upload-artifact@v4
         with:
           name: delta-android-signed

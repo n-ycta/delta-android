@@ -11,10 +11,10 @@ ns='http://schemas.android.com/apk/res/android';a=lambda k:'{'+ns+'}'+k
 p=root/'AndroidManifest.xml';tree=ET.parse(p);manifest=tree.getroot();app=manifest.find('application')
 app.set(a('label'),'Delta')
 app.set(a('icon'),'@mipmap/ic_launcher');app.set(a('roundIcon'),'@mipmap/ic_launcher_round')
-for permission in ['INTERNET','FOREGROUND_SERVICE','FOREGROUND_SERVICE_CONNECTED_DEVICE','CHANGE_NETWORK_STATE','POST_NOTIFICATIONS','RECEIVE_BOOT_COMPLETED']:
+for permission in ['INTERNET','FOREGROUND_SERVICE','FOREGROUND_SERVICE_CONNECTED_DEVICE','CHANGE_NETWORK_STATE','POST_NOTIFICATIONS','RECEIVE_BOOT_COMPLETED','REQUEST_INSTALL_PACKAGES']:
  if not any(v.get(a('name'))=='android.permission.'+permission for v in manifest.findall('uses-permission')):ET.SubElement(manifest,'uses-permission',{a('name'):'android.permission.'+permission})
 ET.SubElement(app,'service',{a('name'):'.platform.DeltaNodeService',a('exported'):'false',a('foregroundServiceType'):'connectedDevice',a('stopWithTask'):'false'})
-r=ET.SubElement(app,'receiver',{a('name'):'.platform.BootReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.BOOT_COMPLETED'})
+r=ET.SubElement(app,'receiver',{a('name'):'.platform.BootReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.BOOT_COMPLETED'});ET.SubElement(f,'action',{a('name'):'android.intent.action.MY_PACKAGE_REPLACED'})
 activity=app.find('activity');f=ET.SubElement(activity,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.VIEW'})
 for c in ['DEFAULT','BROWSABLE']:ET.SubElement(f,'category',{a('name'):'android.intent.category.'+c})
 ET.SubElement(f,'data',{a('scheme'):'delta',a('host'):'pair'})
