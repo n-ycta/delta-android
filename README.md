@@ -32,7 +32,7 @@ Do not clear app storage or uninstall the app as a troubleshooting step without 
 
 Doze, battery optimization and vendor policies can delay networking or terminate background work. Force-stop stops the service until the user launches the app again. No 24/7 guarantee is made. The new local Core is loopback-only: it can call a reachable paired remote Core, but pairing does not provide NAT traversal or inbound exposure. Use HTTPS or a trusted private network/VPN.
 
-Independent signed UI activation/rollback, app-binary self-update, arbitrary plugin HTML frames and physical-device battery/reboot acceptance are not enabled or claimed. UI updates ship with the app.
+Independent signed UI activation/rollback, silent app-binary updates, arbitrary plugin HTML frames and physical-device battery/reboot acceptance are not enabled or claimed. UI updates ship with the app.
 
 ## Build and acceptance
 
