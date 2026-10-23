@@ -1,3 +1,13 @@
+## Version 0.1.17
+
+- Pin shared Delta UI 0.3.7 (d105370) automatically (ui-sync).
+- Phone sign-in by QR code or link: live camera scanning, with separate buttons to scan and to paste a link.
+- Hub nodes are now available on the phone.
+- Invitation fixes.
+- Apps installed from the catalog update automatically.
+- APK updates use our own safe mechanism (SHA256SUMS verified, system installer confirmation, signature enforced).
+- The platform limitations below remain unchanged.
+
 ## Version 0.1.16
 
 - Pin shared Delta UI 0.3.7 (b0ed0c7) automatically (ui-sync).
