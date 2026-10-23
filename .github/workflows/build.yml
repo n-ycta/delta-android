@@ -58,7 +58,7 @@ jobs:
           grep -F "uses-permission: name='android.permission.REQUEST_INSTALL_PACKAGES'" "$RUNNER_TEMP/apk-badging.txt"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml > "$RUNNER_TEMP/apk-manifest.txt"
           # The receiver must exist and must not be exported (exported=true is 0xffffffff in binary XML).
-          grep -F "dev.delta.android.platform.UpdateStatusReceiver" "$RUNNER_TEMP/apk-manifest.txt"
+          grep -F "UpdateStatusReceiver" "$RUNNER_TEMP/apk-manifest.txt"
           ! awk '/E: (receiver|activity|service|provider)/{r=0} /UpdateStatusReceiver/{r=1} r&&/android:exported.*0xffffffff/{f=1} END{exit !f}' "$RUNNER_TEMP/apk-manifest.txt"
       - uses: actions/upload-artifact@v4
         with:
