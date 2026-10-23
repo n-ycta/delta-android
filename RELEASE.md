@@ -1,6 +1,9 @@
 ## Version 0.1.16
 
 - Pin shared Delta UI 0.3.7 (b0ed0c7) automatically (ui-sync).
+- In-app updates (Settings → Core connection): checks the official GitHub releases, downloads the APK, verifies SHA256SUMS and hands it to the system installer. Android always confirms the installation and enforces the signature; nothing installs silently and nothing downloads on a metered network without consent.
+- Nodes without supervisor/exec/packages (the phone's own node) now say so in the Processes, Components and Console tabs; missing CPU/memory telemetry shows a dash.
+- Node rows are cards on phones.
 - Publish verified LifeOS 0.3.4: compact calendar/deadline agenda, mobile statistics, visual icon grid and themed date picker.
 - Include habit/category, WebView persistence and populated responsive regression fixes.
 - Native first-run: connect an existing Delta node or import an existing identity before offering standalone setup.
