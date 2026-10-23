@@ -1,3 +1,16 @@
+## Version 0.1.16
+
+- Pin shared Delta UI 0.3.7 (b0ed0c7) automatically (ui-sync).
+- Publish verified LifeOS 0.3.4: compact calendar/deadline agenda, mobile statistics, visual icon grid and themed date picker.
+- Include habit/category, WebView persistence and populated responsive regression fixes.
+- Native first-run: connect an existing Delta node or import an existing identity before offering standalone setup.
+- Android pairing uses an actual one-time delta://pair invitation and QR, not Linux/Windows commands or a required phone URL.
+- Native Settings accepts links/QR too; late OS deep links work, explicit trust/service selection is preserved, one-time join is not replayed after a follow-up preference-write failure.
+- Verify the signed remote core.info response before completing setup.
+- Secure UUID fallback supports contexts without crypto.randomUUID; no Math.random channel nonces.
+- Include invitation, onboarding, expiry, responsive and actual two-Core pairing regression tests.
+- The platform limitations below remain unchanged.
+
 ## Version 0.1.15
 
 - Keep the safe Delta launcher/name and shared UI/LifeOS updates from 0.1.14.
