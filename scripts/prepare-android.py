@@ -15,6 +15,7 @@ for permission in ['INTERNET','FOREGROUND_SERVICE','FOREGROUND_SERVICE_CONNECTED
  if not any(v.get(a('name'))=='android.permission.'+permission for v in manifest.findall('uses-permission')):ET.SubElement(manifest,'uses-permission',{a('name'):'android.permission.'+permission})
 ET.SubElement(app,'service',{a('name'):'.platform.DeltaNodeService',a('exported'):'false',a('foregroundServiceType'):'connectedDevice',a('stopWithTask'):'false'})
 r=ET.SubElement(app,'receiver',{a('name'):'.platform.BootReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.BOOT_COMPLETED'});ET.SubElement(f,'action',{a('name'):'android.intent.action.MY_PACKAGE_REPLACED'})
+r=ET.SubElement(app,'receiver',{a('name'):'.platform.UpdateStatusReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'dev.delta.android.UPDATE_STATUS'})
 activity=app.find('activity');f=ET.SubElement(activity,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.VIEW'})
 for c in ['DEFAULT','BROWSABLE']:ET.SubElement(f,'category',{a('name'):'android.intent.category.'+c})
 ET.SubElement(f,'data',{a('scheme'):'delta',a('host'):'pair'})

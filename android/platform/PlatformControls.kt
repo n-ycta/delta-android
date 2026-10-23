@@ -33,7 +33,7 @@ class PlatformControls {companion object {
  "share"->{val text=a.get("data").toString();require(text.length<=65536);val ui=activity.get()?:error("Activity unavailable");ui.runOnUiThread{ui.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT,text),"Delta"))};answer.put("shared",true)}
  "export"->{val markdown=a.optString("format")=="markdown";val text=if(markdown)a.getString("text")else a.get("data").toString();require(text.toByteArray().size<=if(markdown)32768 else 65536);val ui=activity.get()?:error("Activity unavailable");synchronized(this){check(pending==null){"Export already open"};pending=CompletableFuture();exportText=text};try{ui.runOnUiThread{ui.startActivityForResult(Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType(if(markdown)"text/markdown" else "application/json").putExtra(Intent.EXTRA_TITLE,if(markdown)"delta-recovery.md" else "delta-export.json"),requestExport)};answer.put("saved",pending!!.get(120,TimeUnit.SECONDS))}finally{synchronized(this){pending=null;exportText=""}}}
  "update_env"->{val e=AppUpdate.env(context);for(k in e.keys())answer.put(k,e.get(k))}
- "update_install"->{val r=AppUpdate.install(context,activity.get(),a.getString("path"));for(k in r.keys())answer.put(k,r.get(k))}
+ "update_install"->{val r=AppUpdate.install(context,activity.get(),a.getString("path"),a.optString("sha256"));for(k in r.keys())answer.put(k,r.get(k))}
  else->error("Unsupported platform operation")};return answer.toString()}
  fun notifications(c:Context)=prefs(c).getBoolean("notifications",false)&&permitted(c)
 }}
