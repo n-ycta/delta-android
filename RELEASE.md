@@ -1,6 +1,7 @@
 ## Version 0.1.18
 
-- Pin shared Delta UI 0.3.7 (000691d) automatically (ui-sync).
+- Pin shared Delta UI 0.3.7 (569ae44) automatically (ui-sync).
+- The phone's embedded node now includes hub discovery: when the hub trusts the phone as administrator, the hub's nodes (for example the VPS) appear on the phone and calls to them go through the hub. Phones paired with a hub before this version must join it once more.
 - Phone sign-in has exactly two buttons, Scan/Stop and Join, with a live camera preview; an invitation arrives from a QR code or a `delta://pair` link.
 - The invitation reader accepts every format the core and console produce: `delta://pair` links, the `delta join <url> <code>` command, the JSON pairing object and addresses without a scheme. An invitation that points to the device that created it is reported clearly.
 - A pairing link opened outside the app is delivered once, not on every return to the app.

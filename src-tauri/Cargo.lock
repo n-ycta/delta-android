@@ -942,7 +942,7 @@ dependencies = [
 [[package]]
 name = "delta-app-runtime"
 version = "0.1.0"
-source = "git+https://github.com/n-ycta/delta-ui?rev=000691d2afad0f4ccea7d7d7b5904c5505d862d0#000691d2afad0f4ccea7d7d7b5904c5505d862d0"
+source = "git+https://github.com/n-ycta/delta-ui?rev=569ae446efbc8d8aefd769827f547a620e7a5b13#569ae446efbc8d8aefd769827f547a620e7a5b13"
 dependencies = [
  "base64 0.22.1",
  "serde_json",
@@ -952,7 +952,7 @@ dependencies = [
 [[package]]
 name = "delta-host-runtime"
 version = "0.1.1"
-source = "git+https://github.com/n-ycta/delta?rev=e841d9ad283b78cfc383f1fc8653e77e2c050216#e841d9ad283b78cfc383f1fc8653e77e2c050216"
+source = "git+https://github.com/n-ycta/delta?rev=4d970f1ddb23a3c152ffacf743955871d59b71eb#4d970f1ddb23a3c152ffacf743955871d59b71eb"
 dependencies = [
  "delta-node",
  "fs2",
@@ -964,7 +964,7 @@ dependencies = [
 [[package]]
 name = "delta-native-host"
 version = "0.1.1"
-source = "git+https://github.com/n-ycta/delta-ui?rev=000691d2afad0f4ccea7d7d7b5904c5505d862d0#000691d2afad0f4ccea7d7d7b5904c5505d862d0"
+source = "git+https://github.com/n-ycta/delta-ui?rev=569ae446efbc8d8aefd769827f547a620e7a5b13#569ae446efbc8d8aefd769827f547a620e7a5b13"
 dependencies = [
  "delta-app-runtime",
  "delta-host-runtime",
@@ -984,7 +984,7 @@ dependencies = [
 [[package]]
 name = "delta-native-update"
 version = "0.1.0"
-source = "git+https://github.com/n-ycta/delta-ui?rev=000691d2afad0f4ccea7d7d7b5904c5505d862d0#000691d2afad0f4ccea7d7d7b5904c5505d862d0"
+source = "git+https://github.com/n-ycta/delta-ui?rev=569ae446efbc8d8aefd769827f547a620e7a5b13#569ae446efbc8d8aefd769827f547a620e7a5b13"
 dependencies = [
  "reqwest 0.12.28",
  "serde_json",
@@ -994,7 +994,7 @@ dependencies = [
 [[package]]
 name = "delta-node"
 version = "0.4.5"
-source = "git+https://github.com/n-ycta/delta?rev=e841d9ad283b78cfc383f1fc8653e77e2c050216#e841d9ad283b78cfc383f1fc8653e77e2c050216"
+source = "git+https://github.com/n-ycta/delta?rev=4d970f1ddb23a3c152ffacf743955871d59b71eb#4d970f1ddb23a3c152ffacf743955871d59b71eb"
 dependencies = [
  "async-trait",
  "axum",
