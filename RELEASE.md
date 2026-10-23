@@ -1,7 +1,17 @@
+## Version 0.1.18
+
+- Pin shared Delta UI 0.3.7 (000691d) automatically (ui-sync).
+- Phone sign-in has exactly two buttons, Scan/Stop and Join, with a live camera preview; an invitation arrives from a QR code or a `delta://pair` link.
+- The invitation reader accepts every format the core and console produce: `delta://pair` links, the `delta join <url> <code>` command, the JSON pairing object and addresses without a scheme. An invitation that points to the device that created it is reported clearly.
+- A pairing link opened outside the app is delivered once, not on every return to the app.
+- Plugin API calls go to the local node first and only look for another node when the local one does not have the capability.
+- Portable apps (Media) render in their isolated origin again (checked by the Android emulator test).
+- The platform limitations below remain unchanged.
+
 ## Version 0.1.17
 
 - Pin shared Delta UI 0.3.7 (d105370) automatically (ui-sync).
-- Phone sign-in by QR code or link: live camera scanning, with separate buttons to scan and to paste a link.
+- Phone sign-in by QR code or link with a live camera.
 - Hub nodes are now available on the phone.
 - Invitation fixes.
 - Apps installed from the catalog update automatically.

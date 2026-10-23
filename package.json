@@ -1,6 +1,6 @@
 {
   "name": "delta-android",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "private": true,
   "type": "module",
   "license": "Apache-2.0",
@@ -11,7 +11,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@delta/ui": "https://github.com/n-ycta/delta-ui/archive/d105370ae41266c73099baf3dcaaaab6acc1d4cf.tar.gz"
+    "@delta/ui": "https://github.com/n-ycta/delta-ui/archive/000691d2afad0f4ccea7d7d7b5904c5505d862d0.tar.gz"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
