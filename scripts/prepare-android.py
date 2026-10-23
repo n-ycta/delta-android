@@ -16,6 +16,8 @@ for permission in ['INTERNET','FOREGROUND_SERVICE','FOREGROUND_SERVICE_CONNECTED
 ET.SubElement(app,'service',{a('name'):'.platform.DeltaNodeService',a('exported'):'false',a('foregroundServiceType'):'connectedDevice',a('stopWithTask'):'false'})
 r=ET.SubElement(app,'receiver',{a('name'):'.platform.BootReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.BOOT_COMPLETED'});ET.SubElement(f,'action',{a('name'):'android.intent.action.MY_PACKAGE_REPLACED'})
 r=ET.SubElement(app,'receiver',{a('name'):'.platform.UpdateStatusReceiver',a('exported'):'false'});f=ET.SubElement(r,'intent-filter');ET.SubElement(f,'action',{a('name'):'dev.delta.android.UPDATE_STATUS'})
+# Android 11+ package visibility: without this resolveActivity() for the installer's confirmation intent returns null.
+q=ET.SubElement(manifest,'queries');qi=ET.SubElement(q,'intent');ET.SubElement(qi,'action',{a('name'):'android.content.pm.action.CONFIRM_INSTALL'})
 activity=app.find('activity');f=ET.SubElement(activity,'intent-filter');ET.SubElement(f,'action',{a('name'):'android.intent.action.VIEW'})
 for c in ['DEFAULT','BROWSABLE']:ET.SubElement(f,'category',{a('name'):'android.intent.category.'+c})
 ET.SubElement(f,'data',{a('scheme'):'delta',a('host'):'pair'})
